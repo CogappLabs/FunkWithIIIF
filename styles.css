@@ -1,0 +1,70 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0 0;
+  background: pink;
+  display: flex;
+  flex-direction: column;
+}
+
+/* stick to the top of the flex */
+.audio-container {
+  width: 100%;
+  flex-basis: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* take up the rest of the space */
+.visualizer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: peachpuff;
+}
+
+/* pin to the bottom of flex parent */
+.lyrics {
+  width: 100%;
+  flex-basis: 6rem;
+  padding: 1rem;
+  background: white;
+  text-align: center;
+}
+
+/* throbbing */
+
+img.throbbing {
+  width: 600px;
+  height: 400px;
+  position: absolute;
+  animation: throb 2.8s infinite;
+}
+
+@keyframes throb {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}

@@ -2,25 +2,47 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTT to JSON</title>
-    <script type="text/javascript" src="js/lyrics.js"></script>
-    <!-- Load the POS library locally -->
-    <script type="text/javascript" src="js/jspos-0.2.2/lexer.js"></script>
-    <script type="text/javascript" src="js/jspos-0.2.2/lexicon.js_"></script>
-    <script type="text/javascript" src="js/jspos-0.2.2/POSTagger.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Throbbing Images</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h1>VTT to JSON</h1>
-    <pre id="output"></pre>
 
-    <script>
-        // Load the VTT file when the page loads
-        window.onload = () => loadVTT('subtitles.vtt');
+  <body>
+    <div class="container">
+      <div class="audio-container">
+        <audio class="audio-player" controls src="./birdhouse.mp3"></audio>
+      </div>
+      <div class="visualizer"></div>
+      <div class="lyrics"></div>
+    </div>
+  </body>
 
-    </script>
+  <pre id="output"></pre>
+
+  <script src="js/lyrics.js"></script>
+  <script src="js/jspos-0.2.2/lexer.js"></script>
+  <script src="js/jspos-0.2.2/lexicon.js_"></script>
+  <script src="js/jspos-0.2.2/POSTagger.js"></script>
+  <script src="js/audio.js"></script>
+  <!-- <script src="js/images.js"></script> -->
+  <script src="js/main.js"></script>
+  <script>
+    // Load the VTT file when the page loads
+    window.onload = () => loadVTT('subtitles.vtt');
+    // Init the audio player
+    document.addEventListener('DOMContentLoaded', (event) => {
+      var audioElement = document.querySelector('.audio-player');
+      var lyricsContainer = document.querySelector('.lyrics');
+
+      audioElement.addEventListener('timeupdate', () => {
+        var currentTime = audioElement.currentTime;
+        lyricsContainer.textContent = formatTime(currentTime);
+      });
+    });
+  </script>
 </body>
 
 </html>
