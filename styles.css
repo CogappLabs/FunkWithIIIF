@@ -33,7 +33,6 @@ body {
   flex-direction: column;
 }
 
-/* stick to the top of the flex */
 .audio-container {
   width: 100%;
   flex-basis: 6rem;
@@ -43,7 +42,6 @@ body {
   align-items: center;
 }
 
-/* take up the rest of the space */
 .visualizer {
   flex: 1;
   flex-basis: 50%;
@@ -55,7 +53,6 @@ body {
   overflow: hidden;
 }
 
-/* pin to the bottom of flex parent */
 .lyrics {
   flex: 1;
   width: 100%;
@@ -66,7 +63,6 @@ body {
 }
 
 /* throbbing */
-
 .throbbing {
   width: 600px;
   height: 400px;
@@ -80,6 +76,6 @@ body {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.5);
+    transform: scale(1.2);
   }
 }
