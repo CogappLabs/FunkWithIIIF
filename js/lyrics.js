@@ -42,7 +42,9 @@ async function loadVTT(url) {
           }
         });
       }
-      // console.log(jsonLyrics);
+
+      cue.formattedText = highlightWords(cue.text, cue.words);
+
       //document.getElementById('output').textContent = JSON.stringify(jsonLyrics, null, 2);
     });
     console.log(jsonLyrics);
@@ -89,4 +91,11 @@ function parseVTT(data) {
   }
 
   return cues;
+}
+
+function highlightWords(text, words) {
+  let wordSet = new Set(words);
+  return text.split(' ').map(word => {
+    return wordSet.has(word) ? `<span class="highlighted">${word}</span>` : word;
+  }).join(' ');
 }
