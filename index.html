@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VTT to JSON</title>
+    <script type="text/javascript" src="js/lyrics.js"></script>
+    <!-- Load the POS library locally -->
+    <script type="text/javascript" src="js/jspos-0.2.2/lexer.js"></script>
+    <script type="text/javascript" src="js/jspos-0.2.2/lexicon.js_"></script>
+    <script type="text/javascript" src="js/jspos-0.2.2/POSTagger.js"></script>
+</head>
+
+<body>
+    <h1>VTT to JSON</h1>
+    <pre id="output"></pre>
+
+    <script>
+        // Load the VTT file when the page loads
+        window.onload = () => loadVTT('subtitles.vtt');
+
+    </script>
+</body>
+
+</html>
