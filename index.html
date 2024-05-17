@@ -16,7 +16,7 @@
   <body>
     <div class="container">
       <div class="audio-container">
-        <audio class="audio-player" controls src="./birdhouse.mp3"></audio>
+        <audio class="audio-player" controls src="./birdhouse.m4a"></audio>
       </div>
       <div class="visualizer"></div>
       <div class="lyrics honk-wonk"></div>
@@ -30,7 +30,7 @@
   <script src="js/jspos-0.2.2/lexicon.js_"></script>
   <script src="js/jspos-0.2.2/POSTagger.js"></script>
   <script src="js/audio.js"></script>
-  <!-- <script src="js/images.js"></script> -->
+  <script src="js/images.js"></script>
   <!-- <script src="js/main.js"></script> -->
 
   <script>
@@ -42,7 +42,7 @@
         const audioElement = document.querySelector('.audio-player');
         const lyricsContainer = document.querySelector('.lyrics');
         const imageContainer = document.querySelector('.visualizer');
-
+        
         // Parse timecode to seconds
         function parseTimecode(timecode) {
           var parts = timecode.split(':');
@@ -52,29 +52,7 @@
           return (hours * 3600) + (minutes * 60) + seconds;
         }
 
-        function updateLyrics(currentTime) {
-          lyricsData.forEach(cue => {
-            if (currentTime >= cue.start && currentTime <= cue.end) {
-              lyricsContainer.innerHTML = cue.text;
-
-              // Update image display
-              // imageContainer.innerHTML = `
-              // <img src="https://www.artic.edu/iiif/2/${cue.image.image_id}/full/843,/0/default.jpg" alt="${cue.image.title}" style="max-width: 100%; height: auto;">`;
-            }
-          });
-        }
-
-        const currentTime = audioElement.currentTime;
-          console.log(currentTime);
-          lyricsContainer.textContent = formatTime(currentTime);
-
-        // Update lyrics and image based on current playback time
-        audioElement.addEventListener('timeupdate', () => {
-          const currentTime = audioElement.currentTime;
-          console.log(currentTime);
-          // lyricsContainer.textContent = formatTime(currentTime);
-          // updateLyrics(currentTime);
-        });
+        let currentCueIndex = -1;
 
         // Convert start and end times to seconds
         lyricsData.forEach(cue => {
@@ -82,10 +60,45 @@
           cue.end = parseTimecode(cue.end);
         });
 
+        const currentTime = audioElement.currentTime;
+        console.log(currentTime);
+        lyricsContainer.textContent = formatTime(currentTime);
 
-        console.log(window.lyricsData)
-        // Init the audio context
+        // Update lyrics and image based on current playback time
+        audioElement.addEventListener('timeupdate', () => {
+          const currentTime = audioElement.currentTime;
+          console.log(currentTime);
+          // lyricsContainer.textContent = formatTime(currentTime);
+          updateLyrics(currentTime);
+        });
+
+        // Init the audio context for throb
         // initAudioContext(audioElement);
+
+        function updateLyrics(currentTime) {
+          for (let i = 0; i < lyricsData.length; i++) {
+            let cue = lyricsData[i];
+            if (currentTime >= cue.start && currentTime <= cue.end) {
+              lyricsContainer.innerHTML = cue.text;
+
+              // Check if the current cue is different from the previous one
+              if (currentCueIndex !== i) {
+                currentCueIndex = i;
+                console.log('updating img');
+                addImage(cue.image);
+              }
+              break;
+            }
+          }
+        }
+
+        function updateImage(image) {
+          imageContainer.innerHTML = `
+            <div>
+              <img src="https://www.artic.edu/iiif/2/${image.image_id}/full/!600,/0/default.jpg" alt="${image.title}" style="max-width: 100%; height: auto;">
+            </div>
+          `;
+        }
       });
   </script>
 </body>

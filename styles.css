@@ -63,11 +63,11 @@ body {
 
 /* throbbing */
 
-img.throbbing {
+.throbbing {
   width: 600px;
   height: 400px;
   position: absolute;
-  animation: throb 2.8s infinite;
+  animation: throb 0.8s infinite;
 }
 
 @keyframes throb {
