@@ -1,6 +1,10 @@
 // what parts of speech should we use?
 const posTags = ["NN", "NNS", "NNP", "JJ"]; // nouns, adjectives
 
+// what's the API route?
+const aicURLRoot = "https://api.artic.edu/api/v1/artworks/search?q=";
+const aicURLParams = "&query[term][is_public_domain]=true&size=1&fields=id,title,image_id,artist_display,thumbnail.width,thumbnail.height";
+
 // Function to fetch and parse VTT file
 async function loadVTT(url) {
     try {
@@ -10,9 +14,9 @@ async function loadVTT(url) {
         // now get parts of speech
         jsonLyrics.forEach(cue => {
             console.log(cue.text);
+            // get relevant words and add to JSON
             var words = new Lexer().lex(cue.text);
             var taggedWords = new POSTagger().tag(words);
-            var result = "";
             for (i in taggedWords) {
                 var taggedWord = taggedWords[i];
                 var word = taggedWord[0];
@@ -26,6 +30,18 @@ async function loadVTT(url) {
                     }
                 }
             }
+
+            // get a relevant image if possible
+            console.log(cue.words);
+            if ('words' in cue) {
+
+                cue.words.forEach(async word => {
+                    console.log("# looking for images with " + word);
+                    imageData = await getImage(word);
+                    cue.image = imageData;
+                });
+            }
+
             document.getElementById('output').textContent = JSON.stringify(jsonLyrics, null, 2);
 
 
@@ -34,6 +50,16 @@ async function loadVTT(url) {
     } catch (error) {
         console.error('Error loading VTT file:', error);
     }
+}
+
+async function getImage(word) {
+    aicURL = aicURLRoot + word + aicURLParams;
+    const response = await fetch(aicURL);
+    const artText = await response.json();
+    if ('data' in artText) {
+        return artText.data[0];
+    }
+    return "aa";
 }
 
 // Function to parse VTT file content
