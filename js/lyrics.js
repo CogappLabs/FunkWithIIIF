@@ -13,7 +13,6 @@ async function loadVTT(url) {
     const jsonLyrics = parseVTT(vttText);
     // now get parts of speech
     jsonLyrics.forEach(cue => {
-      //console.log(cue.text);
       // get relevant words and add to JSON
       var words = new Lexer().lex(cue.text);
       var taggedWords = new POSTagger().tag(words);
@@ -22,7 +21,6 @@ async function loadVTT(url) {
         var word = taggedWord[0];
         var tag = taggedWord[1];
         if (posTags.includes(tag)) {
-          //console.log(word + " /" + tag);
           if ('words' in cue) {
             cue.words.push(word);
           } else {
@@ -32,24 +30,26 @@ async function loadVTT(url) {
       }
 
       // get a relevant image if possible
-      //console.log(cue.words);
+      // console.log(cue.words);
       if ('words' in cue) {
 
         cue.words.forEach(async word => {
-          //console.log("# looking for images with " + word);
+          // console.log("# looking for images with " + word);
+
           imageData = await getImage(word);
           if (imageData) {
             cue.image = imageData;
           }
         });
       }
+      // console.log(jsonLyrics);
       //document.getElementById('output').textContent = JSON.stringify(jsonLyrics, null, 2);
     });
     console.log(jsonLyrics);
     return jsonLyrics;
 
   } catch (error) {
-    console.error('Error loading VTT file:', error);
+    // console.error('Error loading VTT file:', error);
   }
 }
 
@@ -60,7 +60,6 @@ async function getImage(word) {
   if ('data' in artText) {
     return artText.data[0];
   }
-  return "aa";
 }
 
 // Function to parse VTT file content

@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Throbbing Images</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -16,7 +19,7 @@
         <audio class="audio-player" controls src="./birdhouse.mp3"></audio>
       </div>
       <div class="visualizer"></div>
-      <div class="lyrics"></div>
+      <div class="lyrics honk-wonk"></div>
     </div>
   </body>
 
@@ -28,20 +31,62 @@
   <script src="js/jspos-0.2.2/POSTagger.js"></script>
   <script src="js/audio.js"></script>
   <!-- <script src="js/images.js"></script> -->
-  <script src="js/main.js"></script>
-  <script type="module">
-    // Load the VTT file when the page loads
-    var lyricsData = await loadVTT('subtitles.vtt');
-    // Init the audio player
-    document.addEventListener('DOMContentLoaded', (event) => {
-      var audioElement = document.querySelector('.audio-player');
-      var lyricsContainer = document.querySelector('.lyrics');
+  <!-- <script src="js/main.js"></script> -->
 
-      audioElement.addEventListener('timeupdate', () => {
-        var currentTime = audioElement.currentTime;
-        lyricsContainer.textContent = formatTime(currentTime);
+  <script>
+    // Init the audio player
+      document.addEventListener('DOMContentLoaded', async (event) => {
+        // Wait for the lyrics data to be loaded
+        lyricsData = await loadVTT('subtitles.vtt');
+        
+        const audioElement = document.querySelector('.audio-player');
+        const lyricsContainer = document.querySelector('.lyrics');
+        const imageContainer = document.querySelector('.visualizer');
+
+        // Parse timecode to seconds
+        function parseTimecode(timecode) {
+          var parts = timecode.split(':');
+          var hours = parseInt(parts[0]);
+          var minutes = parseInt(parts[1]);
+          var seconds = parseFloat(parts[2]);
+          return (hours * 3600) + (minutes * 60) + seconds;
+        }
+
+        function updateLyrics(currentTime) {
+          lyricsData.forEach(cue => {
+            if (currentTime >= cue.start && currentTime <= cue.end) {
+              lyricsContainer.innerHTML = cue.text;
+
+              // Update image display
+              // imageContainer.innerHTML = `
+              // <img src="https://www.artic.edu/iiif/2/${cue.image.image_id}/full/843,/0/default.jpg" alt="${cue.image.title}" style="max-width: 100%; height: auto;">`;
+            }
+          });
+        }
+
+        const currentTime = audioElement.currentTime;
+          console.log(currentTime);
+          lyricsContainer.textContent = formatTime(currentTime);
+
+        // Update lyrics and image based on current playback time
+        audioElement.addEventListener('timeupdate', () => {
+          const currentTime = audioElement.currentTime;
+          console.log(currentTime);
+          // lyricsContainer.textContent = formatTime(currentTime);
+          // updateLyrics(currentTime);
+        });
+
+        // Convert start and end times to seconds
+        lyricsData.forEach(cue => {
+          cue.start = parseTimecode(cue.start);
+          cue.end = parseTimecode(cue.end);
+        });
+
+
+        console.log(window.lyricsData)
+        // Init the audio context
+        // initAudioContext(audioElement);
       });
-    });
   </script>
 </body>
 

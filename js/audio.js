@@ -28,7 +28,7 @@ function formatTime(seconds) {
   return hours + ":" + minutes + ":" + secs + "." + milliseconds;
 }
 
-function initAudioContext() {
+function initAudioContext(audioElement) {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   analyser = audioCtx.createAnalyser();
   analyser.fftSize = 256;
@@ -39,7 +39,6 @@ function initAudioContext() {
   source = audioCtx.createMediaElementSource(audioElement);
   source.connect(analyser);
   analyser.connect(audioCtx.destination);
-
   getAmplitudeData();
 }
 
