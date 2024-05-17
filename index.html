@@ -29,9 +29,9 @@
   <script src="js/audio.js"></script>
   <!-- <script src="js/images.js"></script> -->
   <script src="js/main.js"></script>
-  <script>
+  <script type="module">
     // Load the VTT file when the page loads
-    window.onload = () => loadVTT('subtitles.vtt');
+    var lyricsData = await loadVTT('subtitles.vtt');
     // Init the audio player
     document.addEventListener('DOMContentLoaded', (event) => {
       var audioElement = document.querySelector('.audio-player');
