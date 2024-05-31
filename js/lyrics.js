@@ -32,12 +32,11 @@ async function loadVTT(url) {
       // get a relevant image if possible
       // console.log(cue.words);
       if ('words' in cue) {
-
+        cue.images = [];
         cue.words.forEach(async word => {
-          // console.log("# looking for images with " + word);
-
           imageData = await getImage(word);
           if (imageData) {
+            cue.images.push({ word: word, image: imageData });
             cue.image = imageData;
           }
         });

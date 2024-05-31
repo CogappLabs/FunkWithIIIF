@@ -80,7 +80,15 @@
               // ddos'ing the API.
               if (currentCueIndex !== i) {
                 currentCueIndex = i;
-                addImage(cue.image, audioElement);
+                const cuewordwithimages = cue.images;
+                const delayInterval = (cue.end - cue.start) / cuewordwithimages.length;
+
+                cuewordwithimages.forEach((word, index) => {
+                  setTimeout(() => {
+                    addImage(word.image, audioElement);
+                    console.log(word.word);
+                  }, index * delayInterval * 1000);
+                });
               }
               break;
             }

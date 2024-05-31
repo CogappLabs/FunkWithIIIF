@@ -9,7 +9,7 @@ function addImage(image, audioElement) {
   const img = document.createElement('img');
   img.src = `https://www.artic.edu/iiif/2/${image.image_id}/full/!600,600/0/default.jpg`;
   img.className = 'throbbing';
-  
+
   // Random position within the container
   const containerRect = container.getBoundingClientRect();
   const maxX = containerRect.width - 600;
@@ -33,7 +33,7 @@ function addImage(image, audioElement) {
 
   const options = {
     duration: beatDurationInMs,
-    fill: 'forwards',
+    fill: "forwards",
     iterations: Infinity,
   };
 
