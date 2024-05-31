@@ -29,9 +29,10 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "MORF" 9,
-    "SHLN" 25.5;
+}
+
+.highlighted {
+  background-color: violet;
 }
 
 .container {

@@ -28,7 +28,7 @@ readyButton.addEventListener('click', () => {
 
       guess(audioBuffer)
         .then(({ bpm, offset, tempo }) => {
-          console.log({ 
+          console.log({
             'BPM': bpm,
             'Offset': offset,
             'Tempo': tempo,

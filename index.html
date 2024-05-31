@@ -15,7 +15,7 @@
   <button id="play-button" type="button">Play</button>
   <div class="container">
     <div class="audio-container">
-      <audio class="audio-player" controls src="./birdhouse.m4a"></audio>
+      <audio class="audio-player" controls src="./iiif.mp3"></audio>
     </div>
     <div class="visualizer"></div>
     <div class="lyrics honk-wonk"></div>
@@ -45,7 +45,7 @@
       // Init the audio player.
       document.addEventListener('DOMContentLoaded', async (event) => {
         // lyrics data.
-        lyricsData = await loadVTT('subtitles.vtt');
+        lyricsData = await loadVTT('iiif.vtt');
         
         const audioElement = document.querySelector('.audio-player');
         const lyricsContainer = document.querySelector('.lyrics');
