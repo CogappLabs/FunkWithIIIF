@@ -12,16 +12,16 @@
 </head>
 
 <body>
-
-  <body>
-    <div class="container">
-      <div class="audio-container">
-        <audio class="audio-player" controls src="./birdhouse.m4a"></audio>
-      </div>
-      <div class="visualizer"></div>
-      <div class="lyrics honk-wonk"></div>
+  <button id="play-button" type="button">Play</button>
+  <div class="container">
+    <div class="audio-container">
+      <audio class="audio-player" controls src="./iiif.mp3"></audio>
     </div>
-  </body>
+    <div class="visualizer"></div>
+    <div class="lyrics honk-wonk"></div>
+  </div>
+
+  <div id="test" class="throbber"></div>
 
   <pre id="output"></pre>
 
@@ -29,6 +29,7 @@
   <script src="js/jspos-0.2.2/lexer.js"></script>
   <script src="js/jspos-0.2.2/lexicon.js_"></script>
   <script src="js/jspos-0.2.2/POSTagger.js"></script>
+  <script src="js/audio.js" type="module"></script>
   <script src="js/images.js"></script>
 
   <script>
@@ -44,7 +45,7 @@
       // Init the audio player.
       document.addEventListener('DOMContentLoaded', async (event) => {
         // lyrics data.
-        lyricsData = await loadVTT('subtitles.vtt');
+        lyricsData = await loadVTT('iiif.vtt');
         
         const audioElement = document.querySelector('.audio-player');
         const lyricsContainer = document.querySelector('.lyrics');
@@ -79,7 +80,7 @@
               // ddos'ing the API.
               if (currentCueIndex !== i) {
                 currentCueIndex = i;
-                addImage(cue.image);
+                addImage(cue.image, audioElement);
               }
               break;
             }
