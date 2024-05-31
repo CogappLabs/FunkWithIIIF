@@ -77,4 +77,5 @@ body {
   width: 600px;
   height: 400px;
   position: absolute;
+  object-fit: contain;
 }
