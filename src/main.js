@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 			if (currentTime >= cue.start && currentTime <= cue.end) {
 				lyricsContainer.innerHTML = cue.formattedText;
 				// Only update the image if the cue has changed to avoid
-				// ddos'ing the API.
+				// DOSing the API.
 				if (currentCueIndex !== i) {
 					currentCueIndex = i;
 					const cuewordwithimages = cue.images;

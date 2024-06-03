@@ -1,3 +1,6 @@
+import posTagger from 'wink-pos-tagger';
+const wink = posTagger();
+
 // what parts of speech should we use?
 const posTags = ["NN", "NNS", "NNP", "JJ"]; // nouns, adjectives
 
@@ -15,37 +18,27 @@ export async function loadVTT(url) {
     // now get parts of speech
     jsonLyrics.forEach((cue) => {
       // get relevant words and add to JSON
-      const words = new Lexer().lex(cue.text);
-      const taggedWords = new POSTagger().tag(words);
-      for (let i in taggedWords) {
-        const taggedWord = taggedWords[i];
-        const word = taggedWord[0];
-        const tag = taggedWord[1];
-        if (posTags.includes(tag)) {
-          if ("words" in cue) {
-            cue.words.push(word);
-          } else {
-            cue["words"] = [word];
-          }
-        }
-      }
+      // const words = new Lexer().lex(cue.text);
+      // const taggedWords = new POSTagger().tag(words);
+      const taggedWords = wink.tagSentence(cue.text);
+      cue.words = cue.words || [];
+      cue.words.push(
+        ...taggedWords.filter((word) => posTags.includes(word.pos))
+      );
 
       // get a relevant image if possible
-      // console.log(cue.words);
-      if ("words" in cue) {
+      if (cue.words) {
         cue.images = [];
         cue.words.forEach(async (word) => {
-          const imageData = await getImage(word);
+          const imageData = await getImage(word.value);
           if (imageData) {
-            cue.images.push({ word: word, image: imageData });
+            cue.images.push({ word, image: imageData });
             cue.image = imageData;
           }
-        });
+        })
+        cue.formattedText = highlightWords(cue.text, cue.words.map(word => word.value));
       }
 
-      cue.formattedText = highlightWords(cue.text, cue.words);
-
-      //document.getElementById('output').textContent = JSON.stringify(jsonLyrics, null, 2);
     });
     console.log(jsonLyrics);
     return jsonLyrics;

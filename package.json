@@ -13,7 +13,8 @@
 		"audiomotion-analyzer": "^4.5.0",
 		"pos": "^0.4.2",
 		"wavesurfer.js": "^7.7.15",
-		"web-audio-beat-detector": "^8.2.10"
+		"web-audio-beat-detector": "^8.2.10",
+		"wink-pos-tagger": "^2.2.2"
 	},
 	"devDependencies": {
 		"vite": "^5.2.0"
