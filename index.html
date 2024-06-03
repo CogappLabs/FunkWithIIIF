@@ -4,11 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Throbbing Images</title>
+  <title>Funk With IIIF</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -19,90 +18,14 @@
     </div>
     <div class="visualizer"></div>
     <div class="lyrics honk-wonk"></div>
+    <div id="waveform"></div>
   </div>
 
   <div id="test" class="throbber"></div>
 
-  <pre id="output"></pre>
-
-  <script src="js/lyrics.js"></script>
-  <script src="js/jspos-0.2.2/lexer.js"></script>
-  <script src="js/jspos-0.2.2/lexicon.js_"></script>
-  <script src="js/jspos-0.2.2/POSTagger.js"></script>
-  <script src="js/audio.js" type="module"></script>
-  <script src="js/images.js"></script>
-
-  <script>
-      // Parse timecode to seconds
-      function parseTimecode(timecode) {
-        var parts = timecode.split(':');
-        var hours = parseInt(parts[0]);
-        var minutes = parseInt(parts[1]);
-        var seconds = parseFloat(parts[2]);
-        return (hours * 3600) + (minutes * 60) + seconds;
-      }
-
-      // Init the audio player.
-      document.addEventListener('DOMContentLoaded', async (event) => {
-        // lyrics data.
-        lyricsData = await loadVTT('iiif.vtt');
-        
-        const audioElement = document.querySelector('.audio-player');
-        const lyricsContainer = document.querySelector('.lyrics');
-        const imageContainer = document.querySelector('.visualizer');
-        
-        /**
-         * karaoke style lyrics display.
-         * also loads in an image based on the lyrics.
-         */
-
-        // Convert start and end times to seconds
-        lyricsData.forEach(cue => {
-          cue.start = parseTimecode(cue.start);
-          cue.end = parseTimecode(cue.end);
-        });
-
-        const currentTime = audioElement.currentTime;
-        let currentCueIndex = -1;
-
-        console.log(currentTime);
-        lyricsContainer.textContent = currentTime;
-
-        // Update lyrics and image based on current playback time
-        audioElement.addEventListener('timeupdate', () => {
-          const currentTime = audioElement.currentTime;
-
-          for (let i = 0; i < lyricsData.length; i++) {
-            let cue = lyricsData[i];
-            if (currentTime >= cue.start && currentTime <= cue.end) {
-              lyricsContainer.innerHTML = cue.formattedText;
-              // Only update the image if the cue has changed to avoid
-              // ddos'ing the API.
-              if (currentCueIndex !== i) {
-                currentCueIndex = i;
-                const cuewordwithimages = cue.images;
-                const delayInterval = (cue.end - cue.start) / cuewordwithimages.length;
-
-                cuewordwithimages.forEach((word, index) => {
-                  setTimeout(() => {
-                    addImage(word.image, audioElement);
-                    console.log(word.word);
-                  }, index * delayInterval * 1000);
-                });
-              }
-              break;
-            }
-          }
-        });
-
-        // the idea was that everything throbs in time to the waveform of the audio
-        // i.e. all images move together, unlike the fake css animation throb nonsense that
-        // is in here at present.
-
-        // bonus, if the word that is actually linked to the image that is shown
-        // uses dynamic font props to make it stand out compared to the others lyrics.
-      });
-  </script>
+  <script src="src/jspos-0.2.2/lexer.js"></script>
+  <script src="src/jspos-0.2.2/lexicon.js_"></script>
+  <script src="src/jspos-0.2.2/POSTagger.js"></script>
+  <script src="src/main.js" type="module"></script>
 </body>
-
 </html>

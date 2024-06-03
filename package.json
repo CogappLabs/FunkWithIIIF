@@ -1,17 +1,21 @@
 {
-  "name": "vite-project",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "web-audio-beat-detector": "^8.2.10"
-  },
-  "devDependencies": {
-    "vite": "^5.2.0"
-  }
+	"name": "vite-project",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"build:github": "vite build --mode=github",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"audiomotion-analyzer": "^4.5.0",
+		"pos": "^0.4.2",
+		"wavesurfer.js": "^7.7.15",
+		"web-audio-beat-detector": "^8.2.10"
+	},
+	"devDependencies": {
+		"vite": "^5.2.0"
+	}
 }
