@@ -2,7 +2,7 @@
 
 A fun experiment made for Coghack #27.
 
-One or IIIF images animated in time to a beat.
+One or more IIIF images animated in time to a beat.
 
 ## Development
 
