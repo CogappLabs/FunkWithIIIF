@@ -1,4 +1,5 @@
 import posTagger from 'wink-pos-tagger';
+import vttText from './iiif.vtt?raw';
 const wink = posTagger();
 
 // what parts of speech should we use?
@@ -12,14 +13,12 @@ const aicURLParams =
 // Function to fetch and parse VTT file
 export async function loadVTT(url) {
   try {
-    const response = await fetch(url);
-    const vttText = await response.text();
+    // const response = await fetch(url);
+    // const vttText = await response.text();
     const jsonLyrics = parseVTT(vttText);
     // now get parts of speech
     jsonLyrics.forEach((cue) => {
       // get relevant words and add to JSON
-      // const words = new Lexer().lex(cue.text);
-      // const taggedWords = new POSTagger().tag(words);
       const taggedWords = wink.tagSentence(cue.text);
       cue.words = cue.words || [];
       cue.words.push(

@@ -1,5 +1,4 @@
 import "../styles.css";
-
 import { loadVTT } from "./lyrics";
 import { addImage } from "./images";
 import { initFunkyIIIF } from './audio';
@@ -17,7 +16,7 @@ function parseTimecode(timecode) {
 // Init the audio player.
 document.addEventListener("DOMContentLoaded", async (event) => {
 	// lyrics data.
-	const lyricsData = await loadVTT("iiif.vtt");
+	const lyricsData = await loadVTT("/iiif.vtt");
 
 	const audioElement = document.querySelector(".audio-player");
 	const lyricsContainer = document.querySelector(".lyrics");
